@@ -3,11 +3,15 @@ import re
 with open("input/16.txt", "r") as f:
     raw_rules, my_raw_ticket, raw_nearby_tickets = f.read().split("\n\n")
 
-rules = {row[:row.find(":")]: list(map(int, re.split(" or |-", row[row.find(":") + 2:])))
-         for row in raw_rules.split("\n")}
-my_ticket = [int(x) for x in my_raw_ticket[my_raw_ticket.find("\n") + 1:].split(",")]
-nearby_tickets = [list(map(int, row.split(",")))
-                  for row in raw_nearby_tickets[raw_nearby_tickets.find("\n") + 1:].split("\n")]
+rules = {
+    row[: row.find(":")]: list(map(int, re.split(" or |-", row[row.find(":") + 2 :])))
+    for row in raw_rules.split("\n")
+}
+my_ticket = [int(x) for x in my_raw_ticket[my_raw_ticket.find("\n") + 1 :].split(",")]
+nearby_tickets = [
+    list(map(int, row.split(",")))
+    for row in raw_nearby_tickets[raw_nearby_tickets.find("\n") + 1 :].split("\n")
+]
 
 
 def create_range_set(params):

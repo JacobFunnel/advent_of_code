@@ -4,7 +4,7 @@ with open("input/20.txt", "r") as f:
 
 def wrap(idx, n, l):
     naive = idx + n
-    wraps = naive//l
+    wraps = naive // l
     return (idx + n) % l + wraps
 
 
@@ -19,6 +19,8 @@ for identity in range(l):
         numbers.append(numbers.pop(idx))
 
 numbers = [n for n, i in numbers]
-print(numbers[(numbers.index(0) + 1000) % l] +
-      numbers[(numbers.index(0) + 2000) % l] +
-      numbers[(numbers.index(0) + 3000) % l])
+print(
+    numbers[(numbers.index(0) + 1000) % l]
+    + numbers[(numbers.index(0) + 2000) % l]
+    + numbers[(numbers.index(0) + 3000) % l]
+)

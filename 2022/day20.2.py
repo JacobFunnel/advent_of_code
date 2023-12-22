@@ -1,14 +1,15 @@
 with open("input/20.txt", "r") as f:
-    numbers = [(int(line) * 811589153, identity)
-               for identity, line in enumerate(f.read().splitlines())]
+    numbers = [
+        (int(line) * 811589153, identity) for identity, line in enumerate(f.read().splitlines())
+    ]
 
 
 def wrap(idx, n, l):
     naive = idx + n
-    wraps = naive//l
+    wraps = naive // l
     result = naive % l + wraps
     while result not in range(l):
-        wraps = result//l
+        wraps = result // l
         result = result % l + wraps
     return result
 

@@ -4,9 +4,14 @@ with open("input/18.txt", "r") as f:
 
 def sides(cube):
     x, y, z = cube
-    offsets = [(0.5, 0, 0), (-0.5, 0, 0),
-               (0, 0.5, 0), (0, -0.5, 0),
-               (0, 0, 0.5), (0, 0, -0.5)]
+    offsets = [
+        (0.5, 0, 0),
+        (-0.5, 0, 0),
+        (0, 0.5, 0),
+        (0, -0.5, 0),
+        (0, 0, 0.5),
+        (0, 0, -0.5),
+    ]
     return [(x + dx, y + dy, z + dz) for dx, dy, dz in offsets]
 
 

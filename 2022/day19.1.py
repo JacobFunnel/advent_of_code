@@ -2,13 +2,17 @@ import re
 from collections import Counter
 
 with open("input/19.txt", "r") as f:
-    numbers = [tuple(map(int, re.findall(r'\d+', line))) for line in f.read().splitlines()]
+    numbers = [tuple(map(int, re.findall(r"\d+", line))) for line in f.read().splitlines()]
 
-blueprints = {n1: {"ore_bot": Counter({"ore": n2}),
-                   "clay_bot": Counter({"ore": n3}),
-                   "obs_bot": Counter({"ore": n4, "clay": n5}),
-                   "geo_bot": Counter({"ore": n6, "obs": n7})}
-              for n1, n2, n3, n4, n5, n6, n7 in numbers}
+blueprints = {
+    n1: {
+        "ore_bot": Counter({"ore": n2}),
+        "clay_bot": Counter({"ore": n3}),
+        "obs_bot": Counter({"ore": n4, "clay": n5}),
+        "geo_bot": Counter({"ore": n6, "obs": n7}),
+    }
+    for n1, n2, n3, n4, n5, n6, n7 in numbers
+}
 
 
 def can_afford(cost, bank):
@@ -16,7 +20,7 @@ def can_afford(cost, bank):
 
 
 def harvests(bot):
-    return bot[:bot.find("_")]
+    return bot[: bot.find("_")]
 
 
 def production(blueprint):

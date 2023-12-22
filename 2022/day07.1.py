@@ -11,7 +11,7 @@ for line in t_lines:
             if line[2] == "/":
                 pass
             elif line[2] == "..":
-                current_path = current_path[:current_path.rfind("/")]
+                current_path = current_path[: current_path.rfind("/")]
             else:
                 current_path += "/" + line[2]
         elif line[1] == "ls":
@@ -23,8 +23,7 @@ for line in t_lines:
 
 for path in file_system.keys():
     total_sizes[path] = sum(
-        sum(size for size, name in v)
-        for k, v in file_system.items() if path in k
+        sum(size for size, name in v) for k, v in file_system.items() if path in k
     )
 
 print(sum(size for size in total_sizes.values() if size <= 100000))

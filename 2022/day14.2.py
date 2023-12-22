@@ -2,8 +2,10 @@ from time import sleep
 import numpy
 
 with open("input/14.txt", "r") as f:
-    line_coords = [[tuple(map(int, pair.split(","))) for pair in row.split(" -> ")]
-                   for row in f.read().splitlines()]
+    line_coords = [
+        [tuple(map(int, pair.split(","))) for pair in row.split(" -> ")]
+        for row in f.read().splitlines()
+    ]
 
 
 def add(a, b):
@@ -57,4 +59,3 @@ grid[-1] = "#"  # Floor is rock
 
 while not done:
     sand_fall(add(source, (0, -1)))  # Start dropping sand 1 y-unit higher up
-

@@ -7,4 +7,3 @@ for idx, char in enumerate(signal):
     if idx >= 3 and len(set(buffer[-4:])) == 4:
         print(idx + 1)
         break
-

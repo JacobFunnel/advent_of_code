@@ -11,7 +11,7 @@ def parse(lines):
 def find_error(numbers):
     for i, number in enumerate(numbers):
         if i >= 25:
-            pairs = combinations(numbers[i-25:i], 2)
+            pairs = combinations(numbers[i - 25 : i], 2)
             pair_sums = {sum(pair) for pair in pairs}
             if number not in pair_sums:
                 return number

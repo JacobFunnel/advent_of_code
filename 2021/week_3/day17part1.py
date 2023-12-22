@@ -1,7 +1,7 @@
-with open('../input/day17_input.txt', 'r') as f:
+with open("../input/day17_input.txt", "r") as f:
     in_put = f.readline().split()
 
-y_range = [int(y) for y in in_put[3][2:].split('..')]
+y_range = [int(y) for y in in_put[3][2:].split("..")]
 valid_vy = []
 
 

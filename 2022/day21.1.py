@@ -1,10 +1,12 @@
 with open("input/21.txt", "r") as f:
     monkeys = {line[:4]: line[6:].split() for line in f.read().splitlines()}
 
-operators = {"+": lambda a, b: a + b,
-             "-": lambda a, b: a - b,
-             "*": lambda a, b: a * b,
-             "/": lambda a, b: a / b}
+operators = {
+    "+": lambda a, b: a + b,
+    "-": lambda a, b: a - b,
+    "*": lambda a, b: a * b,
+    "/": lambda a, b: a / b,
+}
 
 
 def find_n(monkey):

@@ -6,8 +6,10 @@ with open("input/22.txt", "r") as f:
     lines = [line for line in raw_grid.splitlines()]
     width = len(max(lines, key=len))
     grid = numpy.array([[char for char in line.ljust(width)[:width]] for line in lines])
-    movements = [int(move) if i % 2 == 0 else move
-                 for i, move in enumerate(re.findall(r'\D|\d+', raw_movements))]
+    movements = [
+        int(move) if i % 2 == 0 else move
+        for i, move in enumerate(re.findall(r"\D|\d+", raw_movements))
+    ]
 
 directions = [(0, 1), (-1, 0), (0, -1), (1, 0)]  # >, ^, <, v
 direction = directions[0]
@@ -34,14 +36,14 @@ def wrap_around(position, direction):
     dy, dx = direction
     if dy:
         column = "".join(grid[:, x])
-        tiles = re.search(r'\S', column)
+        tiles = re.search(r"\S", column)
         if dy > 0:
             y = tiles.start()
         else:
             y = tiles.end()
     elif dx:
         row = "".join(grid[:, x])
-        tiles = re.search(r'\S', row)
+        tiles = re.search(r"\S", row)
         if dx > 0:
             x = tiles.start()
         else:
@@ -74,7 +76,9 @@ y, x = position
 column = x + 1
 row = y + 1
 facing = d_score[direction]
-print(f"row: {row}\n"
-      f"column: {column}\n"
-      f"facing: {facing}\n"
-      f"password: {1000 * row + 4 * column + facing}")
+print(
+    f"row: {row}\n"
+    f"column: {column}\n"
+    f"facing: {facing}\n"
+    f"password: {1000 * row + 4 * column + facing}"
+)

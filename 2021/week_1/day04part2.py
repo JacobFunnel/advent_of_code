@@ -1,15 +1,15 @@
 import numpy as np
 
-with open('../input/day04_input.txt', 'r') as f:
+with open("../input/day04_input.txt", "r") as f:
     in_put = f.readlines()
 
-numbers_to_draw = [int(x) for x in in_put[0].strip().split(',')]
+numbers_to_draw = [int(x) for x in in_put[0].strip().split(",")]
 boards = []
 bingo = []
 bingo_numbers = {}
 for i in range(0, len(in_put), 6):
     try:
-        boards.append(np.mat([line.strip().split() for line in in_put[i + 2:i + 7]], dtype=int))
+        boards.append(np.mat([line.strip().split() for line in in_put[i + 2 : i + 7]], dtype=int))
     except:
         break
 
@@ -41,4 +41,4 @@ for number in numbers_to_draw:
 loser = bingo[-1]
 unmarked_map = np.subtract(np.ones(shape=(5, 5), dtype=int), scores[loser])
 unmarked_score = np.multiply(boards[loser], unmarked_map)
-print(unmarked_score.sum()*bingo_numbers[loser])
+print(unmarked_score.sum() * bingo_numbers[loser])

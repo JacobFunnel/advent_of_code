@@ -18,4 +18,4 @@ def calc_diffs(joltages):
 
 joltages = parse(lines)
 diffs = calc_diffs(joltages)
-print(diffs[1]*diffs[3])
+print(diffs[1] * diffs[3])

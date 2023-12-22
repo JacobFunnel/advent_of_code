@@ -21,6 +21,3 @@ for c in c_counts.keys():
 counts = {}
 for planet in [a for a, b in pairs] + [b for a, b in pairs]:
     counts[planet] = counts.setdefault(planet, 0) + 1
-
-
-

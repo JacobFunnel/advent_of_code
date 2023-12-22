@@ -1,9 +1,9 @@
-with open('../input/day10_input.txt', 'r') as f:
+with open("../input/day10_input.txt", "r") as f:
     lines = {line.strip() for line in f.readlines()}
 
-match = {'}': '{', ']': '[', ')': '(', '>': '<', '{': '}', '[': ']', '(': ')', '<': '>'}
-opening = {'{', '[', '(', '<'}
-scoremap = {'}': 3, ']': 2, ')': 1, '>': 4}
+match = {"}": "{", "]": "[", ")": "(", ">": "<", "{": "}", "[": "]", "(": ")", "<": ">"}
+opening = {"{", "[", "(", "<"}
+scoremap = {"}": 3, "]": 2, ")": 1, ">": 4}
 closers = []
 scores = []
 
@@ -28,9 +28,4 @@ for closer in closers:
         score = 5 * score + scoremap[bracket]
     scores.append(score)
 
-print(sorted(scores)[int(len(scores)/2)])
-
-
-
-
-
+print(sorted(scores)[int(len(scores) / 2)])

@@ -1,7 +1,7 @@
 import re
 
 with open("input/04.txt", "r") as f:
-    range_quads = [tuple(map(int, re.findall(r'\d+', line))) for line in f.read().splitlines()]
+    range_quads = [tuple(map(int, re.findall(r"\d+", line))) for line in f.read().splitlines()]
 
 
 def issubrange(range_quad):

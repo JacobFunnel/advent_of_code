@@ -4,7 +4,7 @@ with open("input/03.txt", "r") as f:
 badges, priorities = [], []
 
 for i in range(0, len(rucksacks), 3):
-    badges.append(list(set.intersection(*rucksacks[i:i + 3]))[0])
+    badges.append(list(set.intersection(*rucksacks[i : i + 3]))[0])
 
 for badge in badges:
     priority = ord(badge)

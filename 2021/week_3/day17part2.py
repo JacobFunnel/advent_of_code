@@ -1,8 +1,8 @@
-with open('../input/day17_input.txt', 'r') as f:
+with open("../input/day17_input.txt", "r") as f:
     in_put = f.readline().split()
 
-x_range = [int(x) for x in in_put[2][2:-1].split('..')]
-y_range = [int(y) for y in in_put[3][2:].split('..')]
+x_range = [int(x) for x in in_put[2][2:-1].split("..")]
+y_range = [int(y) for y in in_put[3][2:].split("..")]
 
 
 def xshoot(vx):
@@ -44,17 +44,17 @@ def yshoot(vy):
 def shooting_gallery(shoot, low, high):
     valid_shots = []
     terminal_velocities = {}
-    for v in range(low, high+1):
+    for v in range(low, high + 1):
         shots = shoot(v)
-        tmax = float('inf')
-        tmin = float('inf')
+        tmax = float("inf")
+        tmin = float("inf")
         for shot in shots:
             success, distance, time = shot
             tmin = time if time < tmin else tmin
             tmax = time if not distance else tmax
             if success:
                 valid_shots.append((v, time))
-        if tmax == float('inf') and len(shots):
+        if tmax == float("inf") and len(shots):
             terminal_velocities[v] = tmin
     return valid_shots, terminal_velocities
 

@@ -5,8 +5,8 @@ with open("input/02.txt", "r") as f:
 def parse(line):
     policy, pwd = line.split(": ")
     char = policy[-1]
-    low = policy[:policy.find("-")]
-    high = policy[policy.find("-")+1:-2]
+    low = policy[: policy.find("-")]
+    high = policy[policy.find("-") + 1 : -2]
     return int(low), int(high), char, pwd
 
 
@@ -26,4 +26,3 @@ def validate_lines(lines):
 
 
 print(validate_lines(lines))
-

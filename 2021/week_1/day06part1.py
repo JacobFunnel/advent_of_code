@@ -1,5 +1,5 @@
-with open('../input/day06_input.txt', 'r') as f:
-    population = [int(x) for x in f.readline().split(',')]
+with open("../input/day06_input.txt", "r") as f:
+    population = [int(x) for x in f.readline().split(",")]
 
 days = 80
 new_fish = 0

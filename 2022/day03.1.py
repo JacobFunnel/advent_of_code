@@ -1,6 +1,7 @@
 with open("input/03.txt", "r") as f:
-    rucksacks = [(sack[:int(len(sack)/2)], sack[int(len(sack)/2):])
-                 for sack in f.read().splitlines()]
+    rucksacks = [
+        (sack[: int(len(sack) / 2)], sack[int(len(sack) / 2) :]) for sack in f.read().splitlines()
+    ]
 
 item_types = [list({*sack[0]}.intersection({*sack[-1]}))[0] for sack in rucksacks]
 priorities = []

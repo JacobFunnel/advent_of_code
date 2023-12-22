@@ -14,7 +14,9 @@ def height(x, y, c):
 
 
 with open("input/12.txt", "r") as f:
-    grid = [[height(x, y, c) for x, c in enumerate(line)]
-            for y, line in enumerate(f.read().splitlines())]
+    grid = [
+        [height(x, y, c) for x, c in enumerate(line)]
+        for y, line in enumerate(f.read().splitlines())
+    ]
 
 print(grid, start, end)

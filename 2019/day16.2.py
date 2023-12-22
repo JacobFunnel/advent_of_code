@@ -30,4 +30,4 @@ def next_phase(signal):
 # for _ in range(100):
 #     numbers = next_phase(numbers)
 
-print("".join(str(n) for n in numbers*1000))
+print("".join(str(n) for n in numbers * 1000))

@@ -3,4 +3,3 @@ with open("input/18.txt", "r") as f:
 
 for line in lines:
     print((line.replace(" ", "")))
-

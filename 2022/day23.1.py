@@ -1,8 +1,17 @@
 with open("input/23.txt", "r") as f:
-    elves = {(x, y) for y, line in enumerate(f.read().splitlines())
-             for x, char in enumerate(line) if char == "#"}
+    elves = {
+        (x, y)
+        for y, line in enumerate(f.read().splitlines())
+        for x, char in enumerate(line)
+        if char == "#"
+    }
 
-direction_groups = [["N", "NE", "NW"], ["S", "SE", "SW"], ["W", "NW", "SW"], ["E", "NE", "SE"]]
+direction_groups = [
+    ["N", "NE", "NW"],
+    ["S", "SE", "SW"],
+    ["W", "NW", "SW"],
+    ["E", "NE", "SE"],
+]
 
 
 def add(a, b):
@@ -16,8 +25,16 @@ def rotate_direction_groups():
 
 def propose_move(elf):
     global proposed
-    directions = {"E": (1, 0), "N": (0, 1), "W": (-1, 0), "S": (0, -1),
-                  "NE": (1, 1), "SW": (-1, -1), "SE": (1, -1), "NW": (-1, 1)}
+    directions = {
+        "E": (1, 0),
+        "N": (0, 1),
+        "W": (-1, 0),
+        "S": (0, -1),
+        "NE": (1, 1),
+        "SW": (-1, -1),
+        "SE": (1, -1),
+        "NW": (-1, 1),
+    }
     if not elves ^ {add(elf, d) for d in directions.values()}:
         return
     else:
@@ -41,4 +58,3 @@ for _ in range(5):
     proposed = {}
     take_turn()
     print(elves)
-

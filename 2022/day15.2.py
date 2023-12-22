@@ -1,7 +1,7 @@
 import re
 
 with open("input/15.txt", "r") as f:
-    coords = [tuple(map(int, re.findall(r'-?\d+', row))) for row in f.read().splitlines()]
+    coords = [tuple(map(int, re.findall(r"-?\d+", row))) for row in f.read().splitlines()]
     s_b = {(x1, y1): (x2, y2) for x1, y1, x2, y2 in coords}
 
 
@@ -54,6 +54,5 @@ for y, x_ranges in excl_ranges_by_y.items():
             x = simplified_range[1] + 1
         else:
             x = xymin if simplified_range[0] != xymin else xymax
-        print(f"Beacon at ({x}, {y}) "
-              f"with tuning frequency: {x * 4000000 + y}")
+        print(f"Beacon at ({x}, {y}) " f"with tuning frequency: {x * 4000000 + y}")
         break

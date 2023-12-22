@@ -1,6 +1,6 @@
 import numpy as np
 
-with open('../input/day09_input.txt', 'r') as f:
+with open("../input/day09_input.txt", "r") as f:
     hmap = np.mat([[int(a) for a in line.strip()] for line in f.readlines()])
 
 rows, columns = np.shape(hmap)

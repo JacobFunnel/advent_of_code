@@ -8,6 +8,7 @@ def parse(lines):
 
 # 1 2 5 6 7 8
 
+
 def consecutive_joltages(joltages):
     splits_by_indices = {}
     streak_idx = 0
@@ -31,8 +32,7 @@ def consecutive_joltages(joltages):
 def split_joltages(joltages, splits_by_indices):
     new = []
     for i, count in splits_by_indices.items():
-
-        new.append(joltages[i:i + count + 1])
+        new.append(joltages[i : i + count + 1])
 
 
 def combinations(joltages):

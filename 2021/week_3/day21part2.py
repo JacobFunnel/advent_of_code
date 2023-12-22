@@ -1,10 +1,10 @@
 import time
 
 start_time = time.time()
-with open('../input/day21_input.txt', 'r') as f:
+with open("../input/day21_input.txt", "r") as f:
     starting_positions = {line[:8]: int(line.strip()[-2:]) for line in f.readlines()}
 
-p1, p2 = 'Player 1', 'Player 2'
+p1, p2 = "Player 1", "Player 2"
 die_rolls = set()
 
 for a in range(1, 4):
@@ -39,7 +39,15 @@ def nested_dicts(obj):
                 wins[player] += next_multiplier
                 nested[die] = 0
             else:
-                nested[die] = nested_dicts((next_multiplier, next_player, next_scores, next_boards, nest.copy()))
+                nested[die] = nested_dicts(
+                    (
+                        next_multiplier,
+                        next_player,
+                        next_scores,
+                        next_boards,
+                        nest.copy(),
+                    )
+                )
         if type(value) is tuple:
             nested[die] = nested_dicts(value)
     nested = {key: value for key, value in nested.items() if value != 0}

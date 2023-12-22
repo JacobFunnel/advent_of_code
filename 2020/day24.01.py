@@ -3,12 +3,14 @@ from math import sin, cos, radians
 with open("input/24.txt", "r") as f:
     lines = [[char for char in line.strip()] for line in f.readlines()]
 
-angles = {"e": (cos(0), sin(0)),
-          "ne": (cos(radians(60)), sin(radians(60))),
-          "nw": (cos(radians(120)), sin(radians(120))),
-          "w": (cos(radians(180)), sin(radians(180))),
-          "sw": (cos(radians(240)), sin(radians(240))),
-          "se": (cos(radians(300)), sin(radians(300)))}
+angles = {
+    "e": (cos(0), sin(0)),
+    "ne": (cos(radians(60)), sin(radians(60))),
+    "nw": (cos(radians(120)), sin(radians(120))),
+    "w": (cos(radians(180)), sin(radians(180))),
+    "sw": (cos(radians(240)), sin(radians(240))),
+    "se": (cos(radians(300)), sin(radians(300))),
+}
 
 
 def parse(lines):

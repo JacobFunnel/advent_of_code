@@ -16,10 +16,10 @@ def parse(lines):
 
 def parse_content(content):
     try:
-        amount = int(content[:content.find(" ")])
+        amount = int(content[: content.find(" ")])
     except ValueError:
         return {}
-    bag = content[content.find(" ") + 1:content.find(" bag")]
+    bag = content[content.find(" ") + 1 : content.find(" bag")]
     return {bag: amount}
 
 

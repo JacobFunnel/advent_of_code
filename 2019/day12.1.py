@@ -3,7 +3,7 @@ import re
 
 with open("input/12.txt", "r") as f:
     # r'-?\d+' dash (minus) is optional, then match one or more digits
-    positions = [tuple(int(n) for n in re.findall(r'-?\d+', line)) for line in f.readlines()]
+    positions = [tuple(int(n) for n in re.findall(r"-?\d+", line)) for line in f.readlines()]
     velocities = [tuple(0 for a in range(3)) for b in range(4)]
 
 

@@ -2,8 +2,10 @@ from time import sleep
 import numpy
 
 with open("input/14.txt", "r") as f:
-    line_coords = [[tuple(map(int, pair.split(","))) for pair in row.split(" -> ")]
-                   for row in f.read().splitlines()]
+    line_coords = [
+        [tuple(map(int, pair.split(","))) for pair in row.split(" -> ")]
+        for row in f.read().splitlines()
+    ]
 
 
 def add(a, b):
@@ -58,5 +60,3 @@ print("".join("".join(line) + "\n" for line in grid))
 
 while not done:
     sand_fall(add(source, (-xmin, -ymin)))
-
-

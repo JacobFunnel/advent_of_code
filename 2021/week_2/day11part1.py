@@ -1,6 +1,6 @@
 import numpy as np
 
-with open('../input/day11_input.txt', 'r') as f:
+with open("../input/day11_input.txt", "r") as f:
     grid = np.mat([[int(char) for char in line.strip()] for line in f.readlines()])
 
 rows, columns = np.shape(grid)

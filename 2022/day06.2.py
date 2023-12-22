@@ -7,4 +7,3 @@ for idx, char in enumerate(signal):
     if idx >= 13 and len(set(buffer[-14:])) == 14:
         print(idx + 1)
         break
-

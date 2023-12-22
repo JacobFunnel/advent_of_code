@@ -31,8 +31,8 @@ def make_coprime(x, y):
         if factor == 1 or any([x == 0, y == 0]):
             return x, y
         else:
-            x = int(x/factor)
-            y = int(y/factor)
+            x = int(x / factor)
+            y = int(y / factor)
 
 
 with open("input/13.txt", "r") as f:

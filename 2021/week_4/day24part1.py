@@ -1,7 +1,7 @@
 from math import trunc
 
-with open('../input/day24_input.txt', 'r') as f:
-    instructions = [line.strip().split(' ') for line in f.readlines()]
+with open("../input/day24_input.txt", "r") as f:
+    instructions = [line.strip().split(" ") for line in f.readlines()]
 
 
 def tryint(element):
@@ -11,17 +11,19 @@ def tryint(element):
         return element
 
 
-functions = {'add': lambda a, b: a + b,
-             'mul': lambda a, b: a * b,
-             'div': lambda a, b: trunc(a / b),
-             'mod': lambda a, b: a % b,
-             'eql': lambda a, b: 1 if a == b else 0}
+functions = {
+    "add": lambda a, b: a + b,
+    "mul": lambda a, b: a * b,
+    "div": lambda a, b: trunc(a / b),
+    "mod": lambda a, b: a % b,
+    "eql": lambda a, b: 1 if a == b else 0,
+}
 
 
 def generate_model_nr():
     i = 99999999999999
     while True:
-        if str(i).count('0') == 0:
+        if str(i).count("0") == 0:
             yield str(i)
             i -= 1
         else:
@@ -35,7 +37,7 @@ def generate_digit(model_nr):
 
 def monad(model_nr):
     digit_gen = generate_digit(model_nr)
-    variables = {'w': 0, 'x': 0, 'y': 0, 'z': 0}
+    variables = {"w": 0, "x": 0, "y": 0, "z": 0}
     for line in instructions:
         if len(line) == 2:
             variables[line[1]] = next(digit_gen)
@@ -46,7 +48,7 @@ def monad(model_nr):
                 variables[a] = functions[instruction](variables[a], b)
             except ValueError:
                 return False
-    if variables['z'] == 0:
+    if variables["z"] == 0:
         return True
     else:
         return False
@@ -61,4 +63,4 @@ while True:
         print(model_nr)
         break
     else:
-        print(f'{model_nr} not valid')
+        print(f"{model_nr} not valid")

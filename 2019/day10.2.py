@@ -3,8 +3,9 @@ import numpy as np
 with open("input/10.txt", "r") as f:
     numbers = [[0 if x == "." else 1 for x in line.strip()] for line in f.readlines()]
 
-asteroids = {complex(x, -y) for y, row in enumerate(numbers) for x, asteroid in enumerate(row) if
-             asteroid}
+asteroids = {
+    complex(x, -y) for y, row in enumerate(numbers) for x, asteroid in enumerate(row) if asteroid
+}
 asteroid_to_angles = {}
 for asteroid in asteroids:
     others = asteroids ^ {asteroid}
@@ -13,8 +14,10 @@ for asteroid in asteroids:
         angles.setdefault(np.angle(other - asteroid, deg=True), []).append(other)
 
 best_asteroid = max(asteroid_to_angles, key=lambda x: len(asteroid_to_angles.get(x)))
-shifted_angles = {(-angle + 90) % 360: sorted(others, key=lambda x: abs(x - best_asteroid))
-                  for angle, others in asteroid_to_angles[best_asteroid].items()}
+shifted_angles = {
+    (-angle + 90) % 360: sorted(others, key=lambda x: abs(x - best_asteroid))
+    for angle, others in asteroid_to_angles[best_asteroid].items()
+}
 shifted_angles = dict(sorted(shifted_angles.items()))
 
 

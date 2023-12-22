@@ -8,7 +8,7 @@ def parse(lines):
     entries = []
     for line in lines:
         entry = re.split(" |\n", line)
-        entry = {pair[:pair.find(":")]: pair[pair.find(":") + 1:] for pair in entry}
+        entry = {pair[: pair.find(":")]: pair[pair.find(":") + 1 :] for pair in entry}
         entries.append(entry)
     return entries
 

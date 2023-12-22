@@ -1,7 +1,7 @@
 import re
 
 with open("input/15.txt", "r") as f:
-    coords = [tuple(map(int, re.findall(r'-?\d+', row))) for row in f.read().splitlines()]
+    coords = [tuple(map(int, re.findall(r"-?\d+", row))) for row in f.read().splitlines()]
     s_b = {(x1, y1): (x2, y2) for x1, y1, x2, y2 in coords}
 
 

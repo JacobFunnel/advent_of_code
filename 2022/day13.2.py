@@ -44,8 +44,9 @@ def get_decoder_key(pack_by_idx):
 
     order_sums = {i: sum(row) for i, row in enumerate(score_matrix)}
     order_sums = sorted(order_sums.items(), key=lambda item: item[1], reverse=True)
-    sorted_indices = [sorted_idx + 1 for sorted_idx, (idx, _) in enumerate(order_sums)
-                      if idx in target_indices]
+    sorted_indices = [
+        sorted_idx + 1 for sorted_idx, (idx, _) in enumerate(order_sums) if idx in target_indices
+    ]
     return sorted_indices[0] * sorted_indices[-1]
 
 

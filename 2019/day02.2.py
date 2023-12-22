@@ -17,7 +17,9 @@ def find_inputs():
             while True:
                 operation = ops[numbers[i]]
                 if operation:
-                    numbers[numbers[i + 3]] = operation(numbers[numbers[i + 1]], numbers[numbers[i + 2]])
+                    numbers[numbers[i + 3]] = operation(
+                        numbers[numbers[i + 1]], numbers[numbers[i + 2]]
+                    )
                 else:
                     break
                 i += 4

@@ -14,7 +14,7 @@ def parse(lines):
 def find_neighbors(coord=(0, 0, 0)):
     x, y, z = coord
     directions = {(a, b, c) for a in (-1, 0, 1) for b in (-1, 0, 1) for c in (-1, 0, 1)}
-    neighbors = {(x+a, y+b, z+c) for (a, b, c) in directions} - {coord}
+    neighbors = {(x + a, y + b, z + c) for (a, b, c) in directions} - {coord}
     return neighbors
 
 

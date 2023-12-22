@@ -9,7 +9,7 @@ def find_2020(nums):
         for b in nums:
             for c in nums:
                 if a != b and b != c and a != c and a + b + c == 2020:
-                    return a, b, c, a*b*c
+                    return a, b, c, a * b * c
 
 
 print(find_2020(nums))

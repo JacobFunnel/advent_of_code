@@ -3,14 +3,14 @@ import time
 
 start_time = time.time()
 
-with open('../input/day25_input.txt', 'r') as f:
+with open("../input/day25_input.txt", "r") as f:
     grid = np.mat([[c for c in line.strip()] for line in f.readlines()])
 
 rows, columns = np.shape(grid)
-east_cumbers = np.argwhere(grid == '>')
+east_cumbers = np.argwhere(grid == ">")
 east_cumbers = {(pair[0], pair[1]) for pair in np.split(east_cumbers, 1)[0]}
 prev_east = east_cumbers.copy()
-south_cumbers = np.argwhere(grid == 'v')
+south_cumbers = np.argwhere(grid == "v")
 south_cumbers = {(pair[0], pair[1]) for pair in np.split(south_cumbers, 1)[0]}
 prev_south = south_cumbers.copy()
 step = 0

@@ -3,9 +3,17 @@ with open("input/02.txt", "r") as f:
 
 win_map = {"A": "C", "B": "A", "C": "B"}
 lose_map = {v: k for k, v in win_map.items()}
-outcomes = {("A", "X"): 6, ("A", "Y"): 3, ("A", "Z"): 0,
-            ("B", "X"): 6, ("B", "Y"): 3, ("B", "Z"): 0,
-            ("C", "X"): 6, ("C", "Y"): 3, ("C", "Z"): 0}
+outcomes = {
+    ("A", "X"): 6,
+    ("A", "Y"): 3,
+    ("A", "Z"): 0,
+    ("B", "X"): 6,
+    ("B", "Y"): 3,
+    ("B", "Z"): 0,
+    ("C", "X"): 6,
+    ("C", "Y"): 3,
+    ("C", "Z"): 0,
+}
 shapes = {"A": 1, "B": 2, "C": 3}
 
 

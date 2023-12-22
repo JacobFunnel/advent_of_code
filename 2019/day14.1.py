@@ -3,8 +3,10 @@ from fractions import Fraction
 from math import ceil
 
 with open("input/14.txt", "r") as f:
-    lines = [[pair for pair in zip(re.findall(r'[A-Z]+', line), map(int, re.findall(r'\d+', line)))]
-             for line in f.readlines()]
+    lines = [
+        [pair for pair in zip(re.findall(r"[A-Z]+", line), map(int, re.findall(r"\d+", line)))]
+        for line in f.readlines()
+    ]
 
 o_from_i = {line[-1][0]: (line[-1][1], line[:-1]) for line in lines}
 ore_spent = 0

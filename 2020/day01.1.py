@@ -8,7 +8,7 @@ def find_2020(nums):
     for a in nums:
         for b in nums:
             if a != b and a + b == 2020:
-                return a, b, a*b
+                return a, b, a * b
 
 
 print(find_2020(nums))

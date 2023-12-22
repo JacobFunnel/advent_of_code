@@ -13,12 +13,10 @@ def parse(lines):
 
 def find_neighbors(coord=(0, 0, 0, 0)):
     x, y, z, w = coord
-    directions = {(a, b, c, d)
-                  for a in (-1, 0, 1)
-                  for b in (-1, 0, 1)
-                  for c in (-1, 0, 1)
-                  for d in (-1, 0, 1)}
-    neighbors = {(x+a, y+b, z+c, w+d) for (a, b, c, d) in directions} - {coord}
+    directions = {
+        (a, b, c, d) for a in (-1, 0, 1) for b in (-1, 0, 1) for c in (-1, 0, 1) for d in (-1, 0, 1)
+    }
+    neighbors = {(x + a, y + b, z + c, w + d) for (a, b, c, d) in directions} - {coord}
     return neighbors
 
 

@@ -3,8 +3,9 @@ with open("input/04.txt", "r") as f:
 
 
 def check(n):
-    return n[0] <= n[1] <= n[2] <= n[3] <= n[4] <= n[5] and \
-           (n[0] == n[1] or n[1] == n[2] or n[2] == n[3] or n[3] == n[4] or n[4] == n[5])
+    return n[0] <= n[1] <= n[2] <= n[3] <= n[4] <= n[5] and (
+        n[0] == n[1] or n[1] == n[2] or n[2] == n[3] or n[3] == n[4] or n[4] == n[5]
+    )
 
 
 valid = 0

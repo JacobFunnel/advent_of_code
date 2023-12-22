@@ -18,7 +18,7 @@ def count_trees(h, line_of_sight):
 for y in range(1, height - 1):
     for x in range(1, width - 1):
         l = count_trees(grid[y][x], reversed(grid[y][:x]))
-        r = count_trees(grid[y][x], grid[y][x + 1:])
+        r = count_trees(grid[y][x], grid[y][x + 1 :])
         u = count_trees(grid[y][x], reversed([grid[h][x] for h in range(y)]))
         d = count_trees(grid[y][x], [grid[h][x] for h in range(y + 1, height)])
         scenic_scores.append(l * r * u * d)

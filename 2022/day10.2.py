@@ -29,4 +29,3 @@ for i, pixel in enumerate(image[:-1]):
     if i % 40 == 0:
         print("")
     print(pixel, end="")
-

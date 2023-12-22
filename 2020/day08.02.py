@@ -39,7 +39,7 @@ def valid_program(instructions):
             visited_indices.append(idx)
         else:
             return False
-            
+
 
 instructions = parse(lines)
 flip_indices = []
