@@ -1,16 +1,25 @@
 import re
 import operator
-from itertools import pairwise
+from itertools import pairwise, islice, product
+from math import prod
 
 from parse import parse_lines
 from collections import namedtuple
 
 Part = namedtuple("Part", ["x", "m", "a", "s"])
-Rule = namedtuple("Rule", ["repr", "attribute", "comparison_function", "value", "destination"])
-comparison_map = {
-    "<": {True: operator.lt, False: operator.ge},
-    ">": {True: operator.gt, False: operator.le},
-}
+Rule = namedtuple(
+    "Rule", ["representation", "attribute", "comparison_function", "value", "destination"]
+)
+
+
+def tuple_comparison(fn):
+    def comp(tup, n):
+        return fn(tup[0], n) and fn(tup[1], n)
+
+    return comp
+
+
+comparison_map = {"<": operator.lt, ">": operator.gt}
 
 
 class Node:
@@ -36,6 +45,15 @@ class Node:
         return f"{start}f {self.rules[0].repr} ({self.workflow}){end}"
 
 
+def batched(iterable, n):
+    # batched('ABCDEFG', 3) --> ABC DEF G
+    if n < 1:
+        raise ValueError("n must be at least one")
+    it = iter(iterable)
+    while batch := tuple(islice(it, n)):
+        yield batch
+
+
 def parse_rule(rule):
     attribute = None
     comparison_function = None
@@ -45,11 +63,11 @@ def parse_rule(rule):
         comparison_function = comparison_map[rule[1]]
         value = int(re.findall(r"\d+", rule)[0])
         destination = rule[rule.find(":") + 1 :]
-        repr = rule[: rule.find(":")]
+        representation = rule[: rule.find(":")]
     else:
-        repr = ""
+        representation = ""
         destination = rule
-    return Rule(repr, attribute, comparison_function, value, destination)
+    return Rule(representation, attribute, comparison_function, value, destination)
 
 
 def parse():
@@ -95,22 +113,45 @@ def define_children(node):
         define_children(child)
 
 
-def create_part():
-    return Part(*(set(range(1, 4001)) for _ in range(4)))._asdict()
+def construct_ranges(paths):
+    comparisons = {}
+    for path in paths:
+        for node in path:
+            if node.rule.comparison_function:
+                comparisons.setdefault(node.rule.attribute, set()).add(
+                    (node.rule.value, node.rule.repr[1])
+                )
+    ranges = {}
+    for attribute, comparison_list in comparisons.items():
+        endpoints = []
+        for value, mouth in sorted(comparison_list):
+            offset = -1 if mouth == "<" else 1
+            endpoints += sorted([value, value + offset])
+        ranges[attribute] = list(batched([1] + endpoints + [4000], 2))
+    return ranges
 
 
 def limit_attribut_values(paths):
     valid_parts = []
     for path in paths:
-        valid_parts.append(create_part())
+        valid_parts.append(construct_ranges(paths))
         part = valid_parts[-1]
         for node, next_node in pairwise(path):
-            part[node.rule.attribute] = {
-                n
-                for n in part[node.rule.attribute]
-                if node.rule.comparison_function[next_node.parent_trigger](n, node.rule.value)
-            }
-    # Now what??
+            comp_fn = tuple_comparison(node.rule.comparison_function)
+            part[node.rule.attribute] = [
+                tup
+                for tup in part[node.rule.attribute]
+                if comp_fn(tup, node.rule.value) == next_node.parent_trigger
+            ]
+        last_node = path[-1]
+        comp_fn = tuple_comparison(last_node.rule.comparison_function)
+        part[last_node.rule.attribute] = [
+            tup
+            for tup in part[last_node.rule.attribute]
+            if comp_fn(tup, last_node.rule.value) == last_node.end_trigger
+        ]
+
+    return valid_parts
 
 
 workflows, parts = parse()
@@ -126,4 +167,12 @@ for node in nodes:
             paths[-1].append(next_node.parent)
 
 paths = [list(reversed(path)) for path in paths]
-limit_attribut_values(paths)
+parts = limit_attribut_values(paths)
+combinations = [list(product(*part.values())) for part in parts]
+unique_combos = set()
+for part in parts:
+    unique_combos |= set(product(*part.values()))
+total = 0
+for combo in unique_combos:
+    total += prod(high - low + 1 for low, high in combo)
+print(total)
