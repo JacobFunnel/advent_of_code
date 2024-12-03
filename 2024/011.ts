@@ -6,7 +6,7 @@ const fileContent = fs.readFileSync(filePath, 'utf-8')
 const lines = fileContent.split('\n')
 const locA: number[] = []
 const locB: number[] = []
-lines.forEach((line, index) => {
+lines.forEach((line) => {
     const [a, b] = line.split('   ')
     if (!isNaN(parseInt(a))) {
         locA.push(parseInt(a))
