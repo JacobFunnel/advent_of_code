@@ -15,14 +15,14 @@ lines.forEach((line, index) => {
         locB.push(parseInt(b))
     }
 })
-locA.sort((a, b) => a - b)
-locB.sort((a, b) => a - b)
-if (locA.length !== locB.length) {
-    throw new Error('lists of unequal length')
+
+function frequencies(arr: number[]) {
+    return arr.reduce((occurrences: Record<number, number>, v) => {
+        occurrences[v] = (occurrences[v] ?? 0) + 1
+        return occurrences
+    }, {})
 }
-const distances: number[] = []
-for (let i = 0; i < locA.length; i++) {
-    distances.push(Math.abs(locA[i] - locB[i]))
-}
-const sum = distances.reduce((a, b) => a + b, 0)
+
+const freqB = frequencies(locB)
+const sum = locA.reduce((acc, v) => acc + v * (freqB[v] ?? 0), 0)
 console.log(sum)
