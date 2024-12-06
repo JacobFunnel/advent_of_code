@@ -1,30 +1,22 @@
-"""
-If we keep track of the vectors that the guard moves through each position, we can for each step check if an obstacle
-would make the guard repeat a previous vector for that position. If he does, then he will be stuck in a loop
-"""
-
 from parse import parse_lines
 
 
-def turn(previous_direction):
+def turn_right(previous_direction):
     right_turns = {(-1, 0): (0, 1), (0, 1): (1, 0), (1, 0): (0, -1), (0, -1): (-1, 0)}
     return right_turns[previous_direction]
 
 def next_position(current, direction):
-    return (current[0] + direction[0], current[1] + direction[1])
+    return current[0] + direction[0], current[1] + direction[1]
 
-def walk(current, direction):
-    global visited
-    next_pos = next_position(current, direction)
+def walk(pos, direction):
+    next_pos = next_position(pos, direction)
     if next_pos in grid:
         if grid[next_pos] == "#":
-            return current, turn(direction), True
+            return pos, turn_right(direction), pos, True
         else:
-            visited.setdefault(current, set()).add(direction)
-            return next_pos, direction, True
+            return next_pos, direction, pos, True
     else:
-        visited.setdefault(current, set()).add(direction)
-        return current, direction, False
+        return pos, direction, pos, False
 
 
 grid = {(r, c): char for r, row in enumerate(parse_lines()) for c, char in enumerate(row)}
@@ -34,15 +26,40 @@ direction = (-1, 0)
 visited = {start: {direction}}
 walking = True
 while walking:
-    current, direction, walking = walk(current, direction)
-mult_visits = {k: v for k, v in visited.items() if len(v) > 1}
-for pos, dirs in mult_visits.items():
-    for dir_ in dirs:
-        """
-        If we can place an obstacle in the path of the guard and check if that results in the guard
-        revisiting a previous vector then we know it will cause a loop
-        """
-        turn(dir_)
-        while next_position(pos, dir_) in grid:
-            pass
+    current, direction, visit, walking = walk(current, direction)
+    if visit:
+        visited.setdefault(visit, set()).add(direction)
 
+# mult_visits = {k: v for k, v in visited.items() if len(v) > 1}
+# single_visits = {k: v for k, v in visited.items() if len(v) == 1}
+obstacles = set()
+# for pos, dirs in mult_visits.items():
+#     for dir_ in dirs:
+#         obstacle = next_position(pos, dir_)
+#         if turn_right(dir_) in dirs:
+#             obstacles.add(obstacle)
+#
+# print(len(obstacles))
+
+for pos, dirs in visited.items():
+    for dir_ in dirs:
+        obstacle = next_position(pos, dir_)
+        if obstacle not in grid or grid[obstacle] == "#":
+            continue
+        else:
+            whatever_was_there = grid[obstacle]
+            grid[obstacle] = "#"
+        direction = turn_right(dir_)
+        current = pos
+        walking = True
+        new_visits = {}
+        while walking:
+            current, direction, visit, walking = walk(current, direction)
+            if direction in new_visits.get(visit, set()):
+                obstacles.add(obstacle)
+                grid[obstacle] = whatever_was_there
+                break
+            elif dir:
+                new_visits.setdefault(visit, set()).add(direction)
+        grid[obstacle] = whatever_was_there
+print(len(obstacles))
