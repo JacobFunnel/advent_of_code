@@ -15,13 +15,16 @@ def walk(current, direction):
     next_pos = (current[0] + direction[0], current[1] + direction[1])
     if next_pos in grid:
         if grid[next_pos] == "#":
-            walk(current, turn(direction))
+            return current, turn(direction)
         else:
             visited.add(current)
-            walk(next_pos, direction)
+            return next_pos, direction
     else:
         visited.add(current)
+        print(len(visited))
         exit()
 
-
-walk(start, (-1, 0))
+current = start
+direction = (-1, 0)
+while True:
+    current, direction = walk(current, direction)
