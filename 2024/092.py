@@ -2,25 +2,21 @@ from dataclasses import dataclass
 
 from parse import parse_lines
 
-disk_map = [[i, int(size), ['file', 'empty'][i % 2], i // 2] for i, size in enumerate(parse_lines()[0])]
-absolute_idx = 0
-for entity in disk_map:
-    relative_idx, size, *_ = entity
-    entity[0] = absolute_idx
-    absolute_idx += size
-
 @dataclass
 class Block:
     idx: int
     size: int
-    id_: int | None
+    id_: int
     type_: str
 
-files  = [Block(idx, size, id_, type_) for idx, size, type_, id_ in disk_map if type_ == 'file']
-empties = [Block(idx, size, None, type_) for idx, size, type_, id_ in disk_map if type_ == 'empty']
+disk_map = [Block(i, int(size), i // 2, ['file', 'empty'][i % 2]) for i, size in enumerate(parse_lines()[0])]
+absolute_idx = 0
+for block in disk_map:
+    block.idx = absolute_idx
+    absolute_idx += block.size
+files  = [block for block in disk_map if block.type_ == 'file']
+empties = [block for block in disk_map if block.type_ == 'empty']
 moved_files = []
-
-
 
 while files:
     file = files.pop()
