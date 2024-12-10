@@ -2,22 +2,25 @@ from dataclasses import dataclass
 
 from parse import parse_lines
 
+
 @dataclass
 class Block:
     idx: int
     size: int
-    id_: int
+    id_: int | None
     type_: str
 
-disk_map = [Block(i, int(size), i // 2, ['file', 'empty'][i % 2]) for i, size in enumerate(parse_lines()[0])]
-absolute_idx = 0
-for block in disk_map:
-    block.idx = absolute_idx
-    absolute_idx += block.size
-files  = [block for block in disk_map if block.type_ == 'file']
-empties = [block for block in disk_map if block.type_ == 'empty']
-moved_files = []
 
+files, moved_files, empties = [], [], []
+absolute_idx = 0
+for i, size in enumerate(parse_lines()[0]):
+    if i % 2 == 0:
+        files.append(Block(absolute_idx, int(size), i // 2, "file"))
+    else:
+        empties.append(Block(absolute_idx, int(size), None, "empty"))
+    absolute_idx += int(size)
+
+moved_files = []
 while files:
     file = files.pop()
     for empty in empties:
@@ -32,11 +35,9 @@ while files:
             break
     moved_files.append(file)
 
-blocks = sorted(moved_files + empties, key=lambda x: x.idx)
 check_sum = 0
-for block in blocks:
-    if block.type_ == 'file':
-        for idx in range(block.idx, block.idx + block.size):
-            check_sum += block.idx * block.id_
+for file in sorted(moved_files, key=lambda x: x.idx):
+        for idx in range(file.idx, file.idx + file.size):
+            check_sum += idx * file.id_
 
 print(check_sum)
