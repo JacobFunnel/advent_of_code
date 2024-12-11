@@ -18,7 +18,7 @@ def apply_rules(line):
             next_line.append(n * 2024)
     return next_line
 
-for _ in range(75):
+for _ in range(25):
     line = apply_rules(line)
 
 print(len(line))
