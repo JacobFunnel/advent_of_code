@@ -1,8 +1,7 @@
 import math
 from parse import parse_all
 
-line = [(int(n) for n in parse_all().split() if n)]
-
+line = [int(n) for n in parse_all().split() if n]
 
 def apply_rules(n):
     if n == 0:
