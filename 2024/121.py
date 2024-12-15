@@ -2,14 +2,7 @@ from collections import Counter
 
 from parse import parse_lines
 
-chars = {}
-for r, row in enumerate(parse_lines()[:-1]):
-    for c, char in enumerate(row):
-        chars.setdefault(char, set()).add(r + c * 1j)
 
-DIRECTIONS = [1, 1j, -1, -1j]
-edges = Counter()
-farms = []
 
 
 def floodfill(point):
@@ -27,7 +20,15 @@ def floodfill(point):
             edges[point] += 1
 
 
-for char, points in chars.items():
+DIRECTIONS = [1, 1j, -1, -1j]
+edges = Counter()
+farms = []
+crop_points = {}
+for r, row in enumerate(parse_lines()[:-1]):
+    for c, char in enumerate(row):
+        crop_points.setdefault(char, set()).add(r + c * 1j)
+
+for char, points in crop_points.items():
     while points:
         point = points.pop()
         visited = set()
