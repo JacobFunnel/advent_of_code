@@ -2,12 +2,6 @@ from itertools import pairwise
 
 from parse import parse_lines
 
-DIRECTIONS = [1, 1j, -1, -1j]
-chars, edges, farms = {}, {}, {}
-for r, row in enumerate(parse_lines()[:-1]):
-    for c, char in enumerate(row):
-        chars.setdefault(char, set()).add(r + c * 1j)
-
 
 def fence_between(p1, p2):
     midpoint = (p1.real + p2.real) / 2 + (p1.imag + p2.imag) / 2 * 1j
@@ -82,22 +76,26 @@ def count_sides(loop):
             sides += 1
     return sides
 
+DIRECTIONS = [1, 1j, -1, -1j]
+crop_points, edges, farms = {}, {}, {}
+for r, row in enumerate(parse_lines()[:-1]):
+    for c, crop in enumerate(row):
+        crop_points.setdefault(crop, set()).add(r + c * 1j)
 
-for char, points in chars.items():
+for crop, points in crop_points.items():
     while points:
         point = points.pop()
         visited = set()
         floodfill(point)
-        farms.setdefault(char, []).append(visited)
+        farms.setdefault(crop, []).append(visited)
         points -= visited
 
 fences = {
     point: [fence_between(point, neighbor) for neighbor in neighbors]
     for point, neighbors in edges.items()
 }
-
 total = 0
-for char, plots in farms.items():
+for crop, plots in farms.items():
     for plot in plots:
         plot_fences = [fence for point in plot for fence in fences.get(point, [])]
         total += len(plot) * sum(count_sides(chain) for chain in create_loops(plot_fences))
