@@ -1,16 +1,12 @@
-from collections import Counter
+from itertools import pairwise
 
 from parse import parse_lines
 
-chars = {}
+DIRECTIONS = [1, 1j, -1, -1j]
+chars, edges, farms = {}, {}, {}
 for r, row in enumerate(parse_lines()[:-1]):
     for c, char in enumerate(row):
         chars.setdefault(char, set()).add(r + c * 1j)
-
-DIRECTIONS = [1, 1j, -1, -1j]
-edges = {}
-farms = []
-counter = Counter()
 
 
 def fence_between(p1, p2):
@@ -20,24 +16,6 @@ def fence_between(p1, p2):
         return midpoint + 0.5, midpoint - 0.5
     else:
         return midpoint + 0.5j, midpoint - 0.5j
-
-
-def fence_sides(fences):
-    vertical, horizontal = {}, {}
-    for p1, p2 in fences:
-        if (p2 - p1).imag:
-            horizontal.setdefault(p1.imag, []).extend([p1.real, p2.real])
-        else:
-            vertical.setdefault(p1.real, []).extend([p1.imag, p2.imag])
-    all_sides = 0
-    for vertices in list(vertical.values()) + list(horizontal.values()):
-        sides = 1
-        for idx, n in enumerate(sorted(set(vertices))):
-            if idx > 0:
-                if not n == vertices[idx - 1]:
-                    sides += 1
-        all_sides += sides
-    return all_sides
 
 
 def floodfill(point):
@@ -55,12 +33,62 @@ def floodfill(point):
             edges.setdefault(point, []).append(new_point)
 
 
+def revisited_node(end, chain):
+    try:
+        return [start for start, *_ in chain].index(end)
+    except ValueError:
+        return False
+
+
+def create_loops(fences):
+    loop, loops = [], []
+    while fences:
+        fence = fences.pop()
+        while True:
+            start, end = fence
+            if len(loop) > 0 and start != loop[-1][1]:
+                start, end = end, start
+            direction = end - start
+            directed_fence = (start, end, direction)
+            loop.append(directed_fence)
+            if (revisited_node_idx := revisited_node(end, loop)) is not False:
+                loops.append(rotate(loop[revisited_node_idx:]))
+                loop = loop[:revisited_node_idx]
+                if not loop:
+                    break
+            try:
+                next_idx = [idx for idx, f in enumerate(fences) if end in f].pop()
+                fence = fences.pop(next_idx)
+            except IndexError:
+                loops.append(rotate(loop))
+                loop = []
+                break
+    return loops
+
+
+def rotate(loop):
+    while True:
+        (*_, first_direction), (*_, last_direction) = loop[0], loop[-1]
+        if first_direction == last_direction:
+            loop.insert(0, loop.pop())
+        else:
+            return loop
+
+
+def count_sides(loop):
+    sides = 1
+    for (*_, previous_direction), (*_, direction) in pairwise(loop):
+        if previous_direction != direction:
+            sides += 1
+    return sides
+
+
 for char, points in chars.items():
     while points:
         point = points.pop()
         visited = set()
         floodfill(point)
-        farms.append(visited)
+        farms.setdefault(char, []).append(visited)
         points -= visited
 
 fences = {
@@ -68,6 +96,9 @@ fences = {
     for point, neighbors in edges.items()
 }
 
-for farm in farms:
-    farm_fences = [fence for point in farm for fence in fences.get(point, [])]
-    print(fence_sides(farm_fences))
+total = 0
+for char, plots in farms.items():
+    for plot in plots:
+        plot_fences = [fence for point in plot for fence in fences.get(point, [])]
+        total += len(plot) * sum(count_sides(chain) for chain in create_loops(plot_fences))
+print(total)
