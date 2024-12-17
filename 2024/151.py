@@ -1,14 +1,14 @@
 from parse import parse_lines
 
 grid, moves = parse_lines(2)
-DIRECTIONS = {'^': -1, 'v': 1, '<': -1j, '>': 1j}
+DIRECTIONS = {"^": -1, "v": 1, "<": -1j, ">": 1j}
 moves = [DIRECTIONS[move] for line in moves.splitlines() for move in line if line]
 positions = {}
 grid = {(r + c * 1j): char for r, row in enumerate(grid.splitlines()) for c, char in enumerate(row)}
 for pos, char in grid.items():
     positions.setdefault(char, set()).add(pos)
 
-[robot_position], walls, boxes = positions['@'], positions['#'], positions['O']
+[robot_position], walls, boxes = positions["@"], positions["#"], positions["O"]
 
 while moves:
     move = moves.pop(0)
