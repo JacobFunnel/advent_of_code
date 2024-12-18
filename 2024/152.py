@@ -18,17 +18,17 @@ for pos, char in grid.items():
 
 
 def draw():
-    for r in range(8):
-        for c in range(8):
+    for r in range(10):
+        for c in range(20):
             if (r + c * 1j) in walls:
                 char = "#"
-            elif (r + c * 1j) in boxes:
+            elif [box for box in boxes if (r + c * 1j) in box]:
                 char = "O"
             elif (r + c * 1j) == robot_position:
                 char = "@"
             else:
                 char = "."
-            print(char, end="\n" if c == 7 else "")
+            print(char, end="\n" if c == 19 else "")
 
 
 def boxes_with_pos(pos):
@@ -47,6 +47,9 @@ def move_box(box, move):
 
 
 while moves:
+    # print(moves[0])
+    # draw()
+    # input()
     move = moves.pop(0)
     boxes_to_move = []
     new_position = robot_position
@@ -56,11 +59,11 @@ while moves:
             new_position += move
         if new_position in walls:
             break
-        if not boxes_to_move:
+        if not boxes_to_move or move.imag:
             if box_to_move := [box for box in boxes if new_position in box]:
                 boxes_to_move.append(box_to_move)
                 continue
-        if boxes_to_move:
+        if boxes_to_move and not move.imag:
             new_positions = {pos + move for box in boxes_to_move[-1] for pos in box}
             if new_positions & walls:
                 break
@@ -70,9 +73,10 @@ while moves:
         else:
             robot_position += move
             if boxes_to_move:
-                for boxes in boxes_to_move:
-                    for box in boxes:
+                for boxes_ in boxes_to_move:
+                    for box in boxes_:
                         move_box(box, move)
             break
 
+# draw()
 print(int(sum(min(p.real for p in box) * 100 + min(p.imag for p in box) for box in boxes)))
