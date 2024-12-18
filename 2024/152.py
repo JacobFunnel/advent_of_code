@@ -18,12 +18,15 @@ for pos, char in grid.items():
 
 
 def draw():
+    bracket = True
+    brackets = {True: "[", False: "]"}
     for r in range(10):
         for c in range(20):
             if (r + c * 1j) in walls:
                 char = "#"
             elif [box for box in boxes if (r + c * 1j) in box]:
-                char = "O"
+                char = brackets[bracket]
+                bracket = not bracket
             elif (r + c * 1j) == robot_position:
                 char = "@"
             else:
@@ -39,17 +42,20 @@ def affected_locations(box, move):
     p1, p2 = box
     return p1 + move, p2 + move
 
-def move_box(box, move):
-    p1, p2 = box
-    new_box = (p1 + move, p2 + move)
-    boxes.remove(box)
-    boxes.add(new_box)
+def move_boxes(queue, move):
+    for line in queue:
+        for box in line:
+            p1, p2 = box
+            new_box = (p1 + move, p2 + move)
+            boxes.remove(box)
+            boxes.add(new_box)
 
-
+move = None
 while moves:
-    # print(moves[0])
-    # draw()
-    # input()
+    if move:
+        print("Move ", {v: k for k, v in DIRECTIONS.items()}[move], ":")
+    draw()
+    # input("next?")
     move = moves.pop(0)
     boxes_to_move = []
     new_position = robot_position
@@ -68,15 +74,17 @@ while moves:
             if new_positions & walls:
                 break
             else:
-                boxes_to_move.append([box for box in boxes if set(box) & new_positions])
-                continue
+                if more_boxes_to_move := [box for box in boxes if set(box) & new_positions]:
+                    boxes_to_move.append(more_boxes_to_move)
+                    continue
+                else:
+                    robot_position += move
+                    move_boxes(boxes_to_move, move)
+                    break
         else:
             robot_position += move
-            if boxes_to_move:
-                for boxes_ in boxes_to_move:
-                    for box in boxes_:
-                        move_box(box, move)
+            move_boxes(boxes_to_move, move)
             break
 
-# draw()
+draw()
 print(int(sum(min(p.real for p in box) * 100 + min(p.imag for p in box) for box in boxes)))
