@@ -1,14 +1,12 @@
-from numpy.polynomial.hermite import poly2herm
-
 from parse import parse_lines
 
 grid, moves = parse_lines(2)
 DIRECTIONS = {"^": -1, "v": 1, "<": -1j, ">": 1j}
 moves = [DIRECTIONS[move] for line in moves.splitlines() for move in line if line]
 grid = grid.replace(".", "..").replace("@", "@.").replace("O", "[]").replace("#", "##")
-
-positions = {}
 grid = {(r + c * 1j): char for r, row in enumerate(grid.splitlines()) for c, char in enumerate(row)}
+width, height = int(max(grid, key=lambda p: p.imag).imag + 1), int(max(grid, key=lambda p: p.real).real + 1)
+positions = {}
 for pos, char in grid.items():
     if char == "[":
         pos = (pos , pos + 1j)
@@ -20,8 +18,8 @@ for pos, char in grid.items():
 def draw():
     bracket = True
     brackets = {True: "[", False: "]"}
-    for r in range(10):
-        for c in range(20):
+    for r in range(height):
+        for c in range(width):
             if (r + c * 1j) in walls:
                 char = "#"
             elif [box for box in boxes if (r + c * 1j) in box]:
@@ -31,37 +29,32 @@ def draw():
                 char = "@"
             else:
                 char = "."
-            print(char, end="\n" if c == 19 else "")
+            print(char, end="\n" if c == width - 1 else "")
 
-
-def boxes_with_pos(pos):
-    return [box for box in boxes if pos in box]
-
-
-def affected_locations(box, move):
-    p1, p2 = box
-    return p1 + move, p2 + move
 
 def move_boxes(queue, move):
-    for line in queue:
-        for box in line:
-            p1, p2 = box
-            new_box = (p1 + move, p2 + move)
-            boxes.remove(box)
-            boxes.add(new_box)
+    global boxes
+    old_box_positions = {box for line in queue for box in line}
+    new_box_positions = {(p1 + move, p2 + move) for p1, p2 in old_box_positions}
+    boxes -= old_box_positions
+    boxes |= new_box_positions
+
 
 move = None
+n = 0
 while moves:
     if move:
-        print("Move ", {v: k for k, v in DIRECTIONS.items()}[move], ":")
+        print("Move ", n, " ", {v: k for k, v in DIRECTIONS.items()}[move], ":")
     draw()
-    # input("next?")
+    n += 1
+    input("next?")
     move = moves.pop(0)
     boxes_to_move = []
     new_position = robot_position
     while True:
         new_position += move
         if boxes_to_move and move.imag:
+            # look ahead another step if moving boxes horizontally
             new_position += move
         if new_position in walls:
             break
