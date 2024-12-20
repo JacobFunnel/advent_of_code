@@ -43,11 +43,11 @@ def move_boxes(queue, move):
 move = None
 n = 0
 while moves:
-    if move:
-        print("Move ", n, " ", {v: k for k, v in DIRECTIONS.items()}[move], ":")
-    draw()
+    # if move:
+    #     print("Move ", n, " ", {v: k for k, v in DIRECTIONS.items()}[move], ":")
+    # draw()
     n += 1
-    input("next?")
+    # input("next?")
     move = moves.pop(0)
     boxes_to_move = []
     new_position = robot_position
@@ -80,4 +80,5 @@ while moves:
             break
 
 draw()
+print(n)
 print(int(sum(min(p.real for p in box) * 100 + min(p.imag for p in box) for box in boxes)))
