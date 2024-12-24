@@ -1,5 +1,3 @@
-import re
-
 from parse import parse_lines
 
 OPERANDS = {"AND": lambda x, y: x & y, "OR": lambda x, y: x | y, "XOR": lambda x, y: x ^ y}
