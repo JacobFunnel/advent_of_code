@@ -14,10 +14,4 @@ for chunk in locks_and_keys:
     else:
         locks.append(heights)
 
-combos = 0
-for lock in locks:
-    for key in keys:
-        if all(k <= l for l, k in zip(lock, key)):
-            combos += 1
-
-print(combos)
+print(sum([1 for lock in locks for key in keys if all(k <= l for l, k in zip(lock, key))]))
