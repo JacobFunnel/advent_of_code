@@ -8,10 +8,10 @@ height = 7
 for chunk in locks_and_keys:
     char = chunk[0]
     opposite = opposites[char]
-    heights = [height - chunk.replace("\n", "")[n::length].index(opposite) for n in range(length)]
+    key_heights = [height - chunk.replace("\n", "")[n::length].index(opposite) for n in range(length)]
     if char == ".":
-        keys.append(heights)
+        keys.append(key_heights)
     else:
-        locks.append(heights)
+        locks.append(key_heights)
 
 print(sum(1 for lock in locks for key in keys if all(k <= l for l, k in zip(lock, key))))
