@@ -2,14 +2,16 @@ import networkx as nx
 
 from parse import parse_lines
 
-edges = (tuple(line.split("-")) for line in parse_lines()[:-1])
-G = nx.Graph()
-G.add_edges_from(edges)
-cliques = []
-for clique in nx.find_cliques(G):
-    if len(clique) == 3:
-        # if any(node.startswith("t") for node in clique):
-        cliques.append(clique)
 
-print(list(nx.connected_components(G)))
-print([len(c) for c in sorted(nx.connected_components(G), key=len, reverse=True)])
+def any_start_with_t(nodes):
+    return any(node.startswith("t") for node in nodes)
+
+
+edges = (tuple(line.split("-")) for line in parse_lines()[:-1])
+G = nx.Graph(edges)
+cliques = [
+    clique
+    for clique in nx.enumerate_all_cliques(G)
+    if len(clique) == 3 and any_start_with_t(clique)
+]
+print(len(cliques))
