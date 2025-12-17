@@ -1,3 +1,5 @@
 /.idea/
 /.dcignore
 /.DS_Store
+/node_modules
+*.pyc
